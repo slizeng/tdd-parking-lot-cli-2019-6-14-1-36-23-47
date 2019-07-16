@@ -11,12 +11,16 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        return parkingLot.park(car);
+        ParkingTicket ticket = parkingLot.park(car);
+        clearErrorMessage();
+        return ticket;
     }
 
     public Car fetch(ParkingTicket ticket) {
         try {
-            return parkingLot.fetch(ticket);
+            Car car = parkingLot.fetch(ticket);
+            clearErrorMessage();
+            return car;
         } catch (NoSuchCarException ignored) {
             lastErrorMessage = ERROR_MESSAGE_UNRECOGNIZED_TICKET;
             return null;
@@ -25,5 +29,9 @@ public class ParkingBoy {
 
     public String getLastErrorMessage() {
         return lastErrorMessage;
+    }
+
+    private void clearErrorMessage() {
+        lastErrorMessage = null;
     }
 }
