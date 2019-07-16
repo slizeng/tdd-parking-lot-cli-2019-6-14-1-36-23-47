@@ -3,8 +3,8 @@ package com.oocl.cultivation;
 import java.util.List;
 import java.util.Optional;
 
-public class NormalParkingBoy extends ParkingBoy {
-    public NormalParkingBoy(List<ParkingLot> parkingLots) {
+public class StandardParkingBoy extends ParkingBoy {
+    public StandardParkingBoy(List<ParkingLot> parkingLots) {
         super(parkingLots);
     }
 
