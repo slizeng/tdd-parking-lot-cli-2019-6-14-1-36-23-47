@@ -1,9 +1,12 @@
 package com.oocl.cultivation;
 
+import static java.util.Objects.isNull;
+
 public class ParkingBoy {
 
     private static final String ERROR_MESSAGE_UNRECOGNIZED_TICKET = "Unrecognized parking ticket.";
     private static final String ERROR_MESSAGE_FULL_PARKING_LOT = "The parking lot is full.";
+    private static final String ERROR_MESSAGE_PROVIDE_TICKET = "Please provide your parking ticket.";
     private final ParkingLot parkingLot;
     private String lastErrorMessage;
 
@@ -23,6 +26,11 @@ public class ParkingBoy {
     }
 
     public Car fetch(ParkingTicket ticket) {
+        if (isNull(ticket)) {
+            lastErrorMessage = ERROR_MESSAGE_PROVIDE_TICKET;
+            return null;
+        }
+
         try {
             Car car = parkingLot.fetch(ticket);
             clearErrorMessage();
