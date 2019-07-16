@@ -60,4 +60,15 @@ public class ParkingLotTest {
         assertEquals(0, position);
         assertThrows(NoAvailableParkingPositionException.class, () -> parkingLot.park(new Car()));
     }
+
+    @Test
+    void should_return_correspond_car_when_fetch_a_car_from_a_parking_lot_with_right_ticket_given_a_car_parking_in_a_parking_lot() {
+        ParkingLot parkingLot = new ParkingLot();
+        Car car = new Car();
+        ParkingTicket ticket = parkingLot.park(car);
+
+        Car returnedCar = parkingLot.fetch(ticket);
+
+        assertSame(car, returnedCar);
+    }
 }
