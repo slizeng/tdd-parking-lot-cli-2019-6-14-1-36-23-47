@@ -113,4 +113,19 @@ public class ParkingManagerTest {
         assertNull(ticket);
         assertEquals("The parking lot is full.", parkingManager.getLastErrorMessage());
     }
+
+    @Test
+    void should_return_error_message_when_fetch_a_car_by_parking_boy_and_parking_boy_failed() {
+        ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
+
+        ParkingLot parkingLotOfBoy = new ParkingLot(1);
+        StandardParkingBoy managedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
+        managedBoy.park(new Car());
+        parkingManager.addParkingBoy(managedBoy);
+
+        Car car = parkingManager.fetchByBoy(managedBoy, new ParkingTicket());
+
+        assertNull(car);
+        assertEquals("Unrecognized parking ticket.", parkingManager.getLastErrorMessage());
+    }
 }
