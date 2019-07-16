@@ -1,4 +1,4 @@
-package com.oocl.cultivation;
+package com.oocl.cultivation.exception;
 
 public class NoAvailableParkingPositionException extends RuntimeException{
 }

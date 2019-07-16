@@ -1,5 +1,8 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.exception.NoAvailableParkingPositionException;
+import com.oocl.cultivation.exception.NoSuchCarException;
+
 import static java.util.Objects.isNull;
 
 public class ParkingBoy {
