@@ -2,6 +2,9 @@ package com.oocl.cultivation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
+import static java.util.Objects.nonNull;
 
 public class ParkingLot {
     private final int capacity;
@@ -19,7 +22,7 @@ public class ParkingLot {
         return capacity - cars.size();
     }
 
-    public ParkingTicket park(Car car) throws RuntimeException{
+    public ParkingTicket park(Car car) throws RuntimeException {
         if (hasNoCapacity()) {
             throw new NoAvailableParkingPositionException();
         }
@@ -32,5 +35,18 @@ public class ParkingLot {
 
     private boolean hasNoCapacity() {
         return getAvailableParkingPosition() <= 0;
+    }
+
+    public Car fetch(ParkingTicket ticket) throws RuntimeException {
+        try {
+            Car car = cars.remove(ticket);
+            if (nonNull(car)) {
+                return car;
+            }
+
+            throw new NoSuchElementException();
+        } catch (Exception ignored) {
+            throw new NoSuchCarException();
+        }
     }
 }

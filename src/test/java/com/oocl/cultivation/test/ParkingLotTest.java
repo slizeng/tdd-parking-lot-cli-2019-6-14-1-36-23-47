@@ -1,9 +1,6 @@
 package com.oocl.cultivation.test;
 
-import com.oocl.cultivation.Car;
-import com.oocl.cultivation.NoAvailableParkingPositionException;
-import com.oocl.cultivation.ParkingLot;
-import com.oocl.cultivation.ParkingTicket;
+import com.oocl.cultivation.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,5 +67,17 @@ public class ParkingLotTest {
         Car returnedCar = parkingLot.fetch(ticket);
 
         assertSame(car, returnedCar);
+    }
+
+
+    @Test
+    void should_throw_NoSuchCarException_when_fetch_a_car_from_a_parking_lot_with_invalid_ticket_given_a_car_parking_in_a_parking_lot() {
+        ParkingLot parkingLot = new ParkingLot();
+        Car targetCar = new Car();
+        ParkingTicket ticket = parkingLot.park(targetCar);
+        parkingLot.fetch(ticket);
+
+        assertThrows(NoSuchCarException.class, () -> parkingLot.fetch(ticket));
+        assertThrows(NoSuchCarException.class, () -> parkingLot.fetch(null));
     }
 }
