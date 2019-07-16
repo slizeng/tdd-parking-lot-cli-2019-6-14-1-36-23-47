@@ -1,10 +1,11 @@
 package com.oocl.cultivation.test;
 
+import com.oocl.cultivation.Car;
 import com.oocl.cultivation.ParkingLot;
+import com.oocl.cultivation.ParkingTicket;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
     @Test
@@ -14,5 +15,15 @@ public class ParkingLotTest {
         int parkingPosition = parkingLot.getAvailableParkingPosition();
 
         assertEquals(1, parkingPosition);
+    }
+
+    @Test
+    void should_return_a_ticket_when_park_a_car_into_parkingLot_given_a_parkingLot_has_capacity() {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+
+        ParkingTicket parkingTicket = parkingLot.park(car);
+
+        assertNotNull(parkingTicket);
     }
 }
