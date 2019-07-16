@@ -3,6 +3,7 @@ package com.oocl.cultivation;
 public class ParkingBoy {
 
     private static final String ERROR_MESSAGE_UNRECOGNIZED_TICKET = "Unrecognized parking ticket.";
+    private static final String ERROR_MESSAGE_FULL_PARKING_LOT = "The parking lot is full.";
     private final ParkingLot parkingLot;
     private String lastErrorMessage;
 
@@ -16,6 +17,7 @@ public class ParkingBoy {
             clearErrorMessage();
             return ticket;
         } catch (NoAvailableParkingPositionException ignored) {
+            lastErrorMessage = ERROR_MESSAGE_FULL_PARKING_LOT;
             return null;
         }
     }
