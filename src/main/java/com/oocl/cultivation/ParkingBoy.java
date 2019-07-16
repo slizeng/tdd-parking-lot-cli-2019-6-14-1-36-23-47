@@ -61,6 +61,10 @@ public class ParkingBoy {
         return lastErrorMessage;
     }
 
+    protected List<ParkingLot> getParkingLots() {
+        return parkingLots;
+    }
+
     private Function<ParkingLot, Car> fetchFromSingleParkingLot(ParkingTicket ticket) {
         return parkingLot -> {
             try {

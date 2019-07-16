@@ -24,7 +24,7 @@ public class SmartParkingBoyTest {
         ParkingTicket ticket = smartParkingBoy.park(new Car());
 
         assertNotNull(ticket);
+        assertEquals(1, parkingLotWithLessAvailablePositions.getAvailableParkingPosition());
         assertEquals(1, parkingLotWithMoreAvailablePositions.getAvailableParkingPosition());
-        assertEquals(0, parkingLotWithMoreAvailablePositions.getAvailableParkingPosition());
     }
 }
