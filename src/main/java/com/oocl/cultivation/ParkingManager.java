@@ -17,6 +17,10 @@ public class ParkingManager extends StandardParkingBoy{
         this.parkingBoys.addAll(asList(parkingBoys));
     }
 
+    public ParkingTicket parkByBoy(StandardParkingBoy parkingBoy, Car car) {
+        return parkingBoy.park(car);
+    }
+
     public List<ParkingBoy> getParkingBoys() {
         return parkingBoys;
     }
