@@ -1,6 +1,5 @@
 package com.oocl.cultivation;
 
-import com.oocl.cultivation.exception.NoAvailableParkingPositionException;
 import com.oocl.cultivation.exception.NoSuchCarException;
 
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.function.Function;
 
 import static java.util.Objects.isNull;
 
-public class ParkingBoy {
-
+public abstract class ParkingBoy {
     private static final String ERROR_MESSAGE_UNRECOGNIZED_TICKET = "Unrecognized parking ticket.";
     private static final String ERROR_MESSAGE_FULL_PARKING_LOT = "The parking lot is full.";
     private static final String ERROR_MESSAGE_PROVIDE_TICKET = "Please provide your parking ticket.";
+
     private final List<ParkingLot> parkingLots;
     private String lastErrorMessage;
 
@@ -23,18 +22,15 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        Optional<ParkingTicket> ticket = parkingLots.stream()
-                .map(parkIntoSingleParkingLot(car))
-                .filter(Objects::nonNull)
-                .findFirst();
-
-        if (ticket.isPresent()) {
-            clearErrorMessage();
-            return ticket.get();
-        } else {
-            lastErrorMessage = ERROR_MESSAGE_FULL_PARKING_LOT;
-            return null;
-        }
+        return selectParkingLot()
+                .map(parkingLot -> {
+                    clearErrorMessage();
+                    return parkingLot.park(car);
+                })
+                .orElseGet(() -> {
+                    lastErrorMessage = ERROR_MESSAGE_FULL_PARKING_LOT;
+                    return null;
+                });
     }
 
     public Car fetch(ParkingTicket ticket) {
@@ -43,25 +39,27 @@ public class ParkingBoy {
             return null;
         }
 
-        Optional<Car> optionalCar = parkingLots.stream()
+        return parkingLots.stream()
                 .map(fetchFromSingleParkingLot(ticket))
                 .filter(Objects::nonNull)
-                .findFirst();
-
-        if (optionalCar.isPresent()) {
-            clearErrorMessage();
-            return optionalCar.get();
-        } else {
-            lastErrorMessage = ERROR_MESSAGE_UNRECOGNIZED_TICKET;
-            return null;
-        }
+                .findFirst()
+                .map(car -> {
+                    clearErrorMessage();
+                    return car;
+                })
+                .orElseGet(() -> {
+                    lastErrorMessage = ERROR_MESSAGE_UNRECOGNIZED_TICKET;
+                    return null;
+                });
     }
 
     public String getLastErrorMessage() {
         return lastErrorMessage;
     }
 
-    protected List<ParkingLot> getParkingLots() {
+    protected abstract Optional<ParkingLot> selectParkingLot();
+
+    List<ParkingLot> getParkingLots() {
         return parkingLots;
     }
 
@@ -70,16 +68,6 @@ public class ParkingBoy {
             try {
                 return parkingLot.fetch(ticket);
             } catch (NoSuchCarException ignored) {
-                return null;
-            }
-        };
-    }
-
-    private Function<ParkingLot, ParkingTicket> parkIntoSingleParkingLot(Car car) {
-        return parkingLot -> {
-            try {
-                return parkingLot.park(car);
-            } catch (NoAvailableParkingPositionException ignore) {
                 return null;
             }
         };
