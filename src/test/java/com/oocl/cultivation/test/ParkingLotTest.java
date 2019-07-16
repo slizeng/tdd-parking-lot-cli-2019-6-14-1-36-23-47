@@ -1,6 +1,7 @@
 package com.oocl.cultivation.test;
 
 import com.oocl.cultivation.Car;
+import com.oocl.cultivation.NoAvailableParkingPositionException;
 import com.oocl.cultivation.ParkingLot;
 import com.oocl.cultivation.ParkingTicket;
 import org.junit.jupiter.api.Test;
@@ -46,5 +47,17 @@ public class ParkingLotTest {
         int positionAfterPark = parkingLot.getAvailableParkingPosition();
 
         assertEquals(positionBeforePark - 1, positionAfterPark);
+    }
+
+    @Test
+    void should_throw_NoAvailableParkingPositionException_when_park_a_car_into_parkingLot_given_a_parkingLot_has_not_capacity() {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+        parkingLot.park(car);
+
+        int position = parkingLot.getAvailableParkingPosition();
+
+        assertEquals(0, position);
+        assertThrows(NoAvailableParkingPositionException.class, () -> parkingLot.park(new Car()));
     }
 }
