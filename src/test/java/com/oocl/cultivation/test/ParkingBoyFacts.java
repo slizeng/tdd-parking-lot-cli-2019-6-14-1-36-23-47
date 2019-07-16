@@ -99,8 +99,8 @@ class ParkingBoyFacts {
         parkingBoy.fetch(null);
 
         assertEquals(
-            "Please provide your parking ticket.",
-            parkingBoy.getLastErrorMessage());
+                "Please provide your parking ticket.",
+                parkingBoy.getLastErrorMessage());
     }
 
     @Test
@@ -126,8 +126,8 @@ class ParkingBoyFacts {
         parkingBoy.fetch(ticket);
 
         assertEquals(
-            "Unrecognized parking ticket.",
-            parkingBoy.getLastErrorMessage()
+                "Unrecognized parking ticket.",
+                parkingBoy.getLastErrorMessage()
         );
     }
 
@@ -152,5 +152,18 @@ class ParkingBoyFacts {
         parkingBoy.park(new Car());
 
         assertEquals("The parking lot is full.", parkingBoy.getLastErrorMessage());
+    }
+
+    @Test
+    void should_park_cars_per_natual_order_when_park_cars_into_multiple_parking_lots() {
+        final int capacity = 1;
+        ParkingLot firstParkingLot = new ParkingLot(capacity);
+        ParkingLot secondParkingLot = new ParkingLot(capacity);
+        ParkingBoy parkingBoy = new ParkingBoy(asList(firstParkingLot, secondParkingLot));
+
+        parkingBoy.park(new Car());
+
+        assertEquals(0, firstParkingLot.getAvailableParkingPosition());
+        assertEquals(1, secondParkingLot.getAvailableParkingPosition());
     }
 }
