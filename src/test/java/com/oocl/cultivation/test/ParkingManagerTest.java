@@ -62,6 +62,24 @@ public class ParkingManagerTest {
         assertEquals(0, parkingLotOfBoy.getAvailableParkingPosition());
     }
 
+
+    @Test
+    void should_return_correspond_car_when_manger_ask_parking_boy_fetch_a_car_with_valid_ticket_given_a_car_parked_in_the_parking_lot_of_the_boy() {
+        ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
+        ParkingLot parkingLotOfBoy = new ParkingLot(1);
+        StandardParkingBoy managedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
+        parkingManager.addParkingBoy(managedBoy);
+        Car targetCar = new Car();
+        ParkingTicket ticket = parkingManager.parkByBoy(managedBoy, targetCar);
+
+        Car fetchedCar = parkingManager.fetchByBoy(managedBoy, ticket);
+
+        assertNotNull(ticket);
+        assertEquals(0, parkingLotOfBoy.getAvailableParkingPosition());
+        assertSame(targetCar, fetchedCar);
+    }
+
+
     @Test
     void should_throws_CannotAssignTaskToParkingBoy_exception_when_park_a_car_by_nonmanaged_parking_boy() {
         ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
