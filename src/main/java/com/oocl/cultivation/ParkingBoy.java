@@ -2,6 +2,7 @@ package com.oocl.cultivation;
 
 public class ParkingBoy {
 
+    private static final String ERROR_MESSAGE_UNRECOGNIZED_TICKET = "Unrecognized parking ticket.";
     private final ParkingLot parkingLot;
     private String lastErrorMessage;
 
@@ -17,6 +18,7 @@ public class ParkingBoy {
         try {
             return parkingLot.fetch(ticket);
         } catch (NoSuchCarException ignored) {
+            lastErrorMessage = ERROR_MESSAGE_UNRECOGNIZED_TICKET;
             return null;
         }
     }
