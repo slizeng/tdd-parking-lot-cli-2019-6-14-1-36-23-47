@@ -75,7 +75,7 @@ public class ParkingManagerTest {
         Car fetchedCar = parkingManager.fetchByBoy(managedBoy, ticket);
 
         assertNotNull(ticket);
-        assertEquals(0, parkingLotOfBoy.getAvailableParkingPosition());
+        assertEquals(1, parkingLotOfBoy.getAvailableParkingPosition());
         assertSame(targetCar, fetchedCar);
     }
 

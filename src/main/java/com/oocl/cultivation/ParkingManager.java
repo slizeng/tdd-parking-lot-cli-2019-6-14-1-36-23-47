@@ -31,7 +31,9 @@ public class ParkingManager extends StandardParkingBoy {
 
     public Car fetchByBoy(StandardParkingBoy parkingBoy, ParkingTicket ticket) {
         if (parkingBoys.contains(parkingBoy)) {
-            return parkingBoy.fetch(ticket);
+            Car car = parkingBoy.fetch(ticket);
+            setLastErrorMessage(parkingBoy.getLastErrorMessage());
+            return car;
         }
 
         throw new CannotAssignTaskToParkingBoy();
