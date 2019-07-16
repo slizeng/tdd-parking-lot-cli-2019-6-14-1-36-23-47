@@ -1,14 +1,14 @@
 package com.oocl.cultivation.test;
 
 import com.oocl.cultivation.*;
+import com.oocl.cultivation.exception.CannotAssignTaskToParkingBoy;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingManagerTest {
     @Test
@@ -37,7 +37,20 @@ public class ParkingManagerTest {
     }
 
     @Test
-    void should_a_car_be_parked_into_parking_boys_lot_when_park_a_car_given_a_parking_manager_without_available_position_and_managing_a_parking_boy() {
+    void should_return_correspond_car_when_parking_manager_fetch_a_car_by_himself_given_a_car_parked_into_parking_managers_lot() {
+        ParkingLot parkingLotOfManager = new ParkingLot(1);
+        ParkingManager parkingManager = new ParkingManager(singletonList(parkingLotOfManager));
+        Car targetCar = new Car();
+        ParkingTicket ticket = parkingManager.park(targetCar);
+        assertNotNull(ticket);
+
+        Car fetchedCar = parkingManager.fetch(ticket);
+
+        assertSame(targetCar, fetchedCar);
+    }
+
+    @Test
+    void should_a_car_be_parked_into_parking_boys_lot_when_park_a_car_by_a_managed_parking_boy_given_a_parking_boy_have_available_parking_position() {
         ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
         ParkingLot parkingLotOfBoy = new ParkingLot(1);
         StandardParkingBoy managedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
@@ -47,5 +60,30 @@ public class ParkingManagerTest {
 
         assertNotNull(ticket);
         assertEquals(0, parkingLotOfBoy.getAvailableParkingPosition());
+    }
+
+    @Test
+    void should_throws_CannotAssignTaskToParkingBoy_exception_when_park_a_car_by_nonmanaged_parking_boy() {
+        ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
+        ParkingLot parkingLotOfBoy = new ParkingLot(1);
+        StandardParkingBoy nonmanagedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
+
+        assertThrows(CannotAssignTaskToParkingBoy.class, () -> parkingManager.parkByBoy(nonmanagedBoy, new Car()));
+    }
+
+    @Test
+    void should_return_error_message_when_park_a_car_by_parking_boy_and_parking_boy_failed() {
+        ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
+        ParkingLot parkingLotOfBoy = new ParkingLot(1);
+        parkingLotOfBoy.park(new Car());
+        StandardParkingBoy managedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
+        parkingManager.addParkingBoy(managedBoy);
+        assertEquals(0, parkingLotOfBoy.getAvailableParkingPosition());
+        assertNull(parkingManager.getLastErrorMessage());
+
+        ParkingTicket ticket = parkingManager.parkByBoy(managedBoy, new Car());
+
+        assertNull(ticket);
+        assertEquals("The parking lot is full.", parkingManager.getLastErrorMessage());
     }
 }

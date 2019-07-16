@@ -59,6 +59,10 @@ public abstract class ParkingBoy {
 
     protected abstract Optional<ParkingLot> selectParkingLot();
 
+    protected void setLastErrorMessage(String lastErrorMessage) {
+        this.lastErrorMessage = lastErrorMessage;
+    }
+
     List<ParkingLot> getParkingLots() {
         return parkingLots;
     }

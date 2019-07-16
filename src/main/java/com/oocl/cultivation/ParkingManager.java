@@ -1,11 +1,13 @@
 package com.oocl.cultivation;
 
+import com.oocl.cultivation.exception.CannotAssignTaskToParkingBoy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class ParkingManager extends StandardParkingBoy{
+public class ParkingManager extends StandardParkingBoy {
     private List<ParkingBoy> parkingBoys;
 
     public ParkingManager(List<ParkingLot> parkingLots) {
@@ -18,7 +20,13 @@ public class ParkingManager extends StandardParkingBoy{
     }
 
     public ParkingTicket parkByBoy(StandardParkingBoy parkingBoy, Car car) {
-        return parkingBoy.park(car);
+        if (parkingBoys.contains(parkingBoy)) {
+            ParkingTicket ticket = parkingBoy.park(car);
+            setLastErrorMessage(parkingBoy.getLastErrorMessage());
+            return ticket;
+        }
+
+        throw new CannotAssignTaskToParkingBoy();
     }
 
     public List<ParkingBoy> getParkingBoys() {
