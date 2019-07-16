@@ -11,9 +11,13 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        ParkingTicket ticket = parkingLot.park(car);
-        clearErrorMessage();
-        return ticket;
+        try {
+            ParkingTicket ticket = parkingLot.park(car);
+            clearErrorMessage();
+            return ticket;
+        } catch (NoAvailableParkingPositionException ignored) {
+            return null;
+        }
     }
 
     public Car fetch(ParkingTicket ticket) {
