@@ -29,6 +29,10 @@ public class ParkingManager extends StandardParkingBoy {
         throw new CannotAssignTaskToParkingBoy();
     }
 
+    public Car fetchByBoy(StandardParkingBoy parkingBoy, ParkingTicket ticket) {
+        return parkingBoy.fetch(ticket);
+    }
+
     public List<ParkingBoy> getParkingBoys() {
         return parkingBoys;
     }
