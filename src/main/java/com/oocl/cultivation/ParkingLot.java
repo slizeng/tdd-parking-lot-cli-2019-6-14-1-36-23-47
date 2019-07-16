@@ -20,6 +20,10 @@ public class ParkingLot {
     }
 
     public ParkingTicket park(Car car) {
-        return new ParkingTicket();
+        ParkingTicket parkingTicket = new ParkingTicket();
+
+        cars.put(parkingTicket, car);
+
+        return parkingTicket;
     }
 }

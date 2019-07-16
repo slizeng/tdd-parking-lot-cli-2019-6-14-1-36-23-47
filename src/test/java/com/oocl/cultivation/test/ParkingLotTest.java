@@ -26,4 +26,17 @@ public class ParkingLotTest {
 
         assertNotNull(parkingTicket);
     }
+
+
+    @Test
+    void should_available_parking_position_reduces_one_when_park_a_car_into_parkingLot_given_a_parkingLot_has_capacity() {
+        ParkingLot parkingLot = new ParkingLot(1);
+        Car car = new Car();
+        int positionBeforePark = parkingLot.getAvailableParkingPosition();
+
+        parkingLot.park(car);
+        int positionAfterPark = parkingLot.getAvailableParkingPosition();
+
+        assertEquals(positionBeforePark - 1, positionAfterPark);
+    }
 }
