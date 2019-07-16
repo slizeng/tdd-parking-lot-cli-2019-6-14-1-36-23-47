@@ -20,7 +20,7 @@ public class ParkingManager extends StandardParkingBoy {
     }
 
     public ParkingTicket parkByBoy(StandardParkingBoy parkingBoy, Car car) {
-        if (parkingBoys.contains(parkingBoy)) {
+        if (isManaged(parkingBoy)) {
             ParkingTicket ticket = parkingBoy.park(car);
             setLastErrorMessage(parkingBoy.getLastErrorMessage());
             return ticket;
@@ -30,7 +30,7 @@ public class ParkingManager extends StandardParkingBoy {
     }
 
     public Car fetchByBoy(StandardParkingBoy parkingBoy, ParkingTicket ticket) {
-        if (parkingBoys.contains(parkingBoy)) {
+        if (isManaged(parkingBoy)) {
             Car car = parkingBoy.fetch(ticket);
             setLastErrorMessage(parkingBoy.getLastErrorMessage());
             return car;
@@ -41,5 +41,9 @@ public class ParkingManager extends StandardParkingBoy {
 
     public List<ParkingBoy> getParkingBoys() {
         return parkingBoys;
+    }
+
+    private boolean isManaged(StandardParkingBoy parkingBoy) {
+        return parkingBoys.contains(parkingBoy);
     }
 }

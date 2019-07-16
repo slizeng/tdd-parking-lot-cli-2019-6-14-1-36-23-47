@@ -1,8 +1,9 @@
 package com.oocl.cultivation;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Comparator.comparingInt;
 
 public class SmartParkingBoy extends ParkingBoy {
     public SmartParkingBoy(List<ParkingLot> parkingLots) {
@@ -12,6 +13,6 @@ public class SmartParkingBoy extends ParkingBoy {
     @Override
     protected Optional<ParkingLot> selectParkingLot() {
         return getParkingLots().stream()
-                .max(Comparator.comparingInt(ParkingLot::getAvailableParkingPosition));
+                .max(comparingInt(ParkingLot::getAvailableParkingPosition));
     }
 }

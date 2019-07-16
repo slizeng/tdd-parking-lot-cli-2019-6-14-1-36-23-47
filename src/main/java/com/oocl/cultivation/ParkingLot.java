@@ -25,10 +25,6 @@ public class ParkingLot {
         return capacity - cars.size();
     }
 
-    public int getCapacity() {
-        return capacity;
-    }
-
     public ParkingTicket park(Car car) throws RuntimeException {
         if (hasNoCapacity()) {
             throw new NoAvailableParkingPositionException();
@@ -38,6 +34,10 @@ public class ParkingLot {
         cars.put(parkingTicket, car);
 
         return parkingTicket;
+    }
+
+    int getCapacity() {
+        return capacity;
     }
 
     private boolean hasNoCapacity() {
