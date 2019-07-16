@@ -19,11 +19,18 @@ public class ParkingLot {
         return capacity - cars.size();
     }
 
-    public ParkingTicket park(Car car) {
-        ParkingTicket parkingTicket = new ParkingTicket();
+    public ParkingTicket park(Car car) throws RuntimeException{
+        if (hasNoCapacity()) {
+            throw new NoAvailableParkingPositionException();
+        }
 
+        ParkingTicket parkingTicket = new ParkingTicket();
         cars.put(parkingTicket, car);
 
         return parkingTicket;
+    }
+
+    private boolean hasNoCapacity() {
+        return getAvailableParkingPosition() <= 0;
     }
 }
