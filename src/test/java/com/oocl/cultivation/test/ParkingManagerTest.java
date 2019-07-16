@@ -79,7 +79,6 @@ public class ParkingManagerTest {
         assertSame(targetCar, fetchedCar);
     }
 
-
     @Test
     void should_throws_CannotAssignTaskToParkingBoy_exception_when_park_a_car_by_nonmanaged_parking_boy() {
         ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
@@ -87,6 +86,16 @@ public class ParkingManagerTest {
         StandardParkingBoy nonmanagedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
 
         assertThrows(CannotAssignTaskToParkingBoy.class, () -> parkingManager.parkByBoy(nonmanagedBoy, new Car()));
+    }
+
+    @Test
+    void should_throws_CannotAssignTaskToParkingBoy_exception_when_fetch_a_car_by_nonmanaged_parking_boy() {
+        ParkingManager parkingManager = new ParkingManager(singletonList(new ParkingLot(0)));
+        ParkingLot parkingLotOfBoy = new ParkingLot(1);
+        ParkingTicket ticket = parkingLotOfBoy.park(new Car());
+        StandardParkingBoy nonmanagedBoy = new StandardParkingBoy(singletonList(parkingLotOfBoy));
+
+        assertThrows(CannotAssignTaskToParkingBoy.class, () -> parkingManager.fetchByBoy(nonmanagedBoy, ticket));
     }
 
     @Test
